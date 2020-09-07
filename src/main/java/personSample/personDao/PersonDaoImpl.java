@@ -3,6 +3,7 @@ package personSample.personDao;
 import personSample.model.Person;
 
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -78,7 +79,21 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public boolean addPerson(Person person) {
-        return false;
+        createConnection();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String add = String.format("insert into person(person_id, first_name, last_name, birth_date) values(%d, '%s', '%s', '%s')"
+                , person.getPersonId(), person.getFirstName(), person.getLastName(), person.getBirthDate().format(formatter));
+        int result = 0;
+        try {
+            Statement statement = connection.createStatement();
+            result = statement.executeUpdate(add);
+            statement.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        closeConnection();
+
+        return result > 0;
     }
 
     @Override
