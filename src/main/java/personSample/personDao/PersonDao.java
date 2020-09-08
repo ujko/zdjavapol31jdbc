@@ -18,4 +18,6 @@ public interface PersonDao {
     List<Person> getByFirstName(String firstName);
 
     List<Person> getByLastName(String lastName);
+
+    List<Person> getByAgeBetween(int minAge, int maxAge);
 }

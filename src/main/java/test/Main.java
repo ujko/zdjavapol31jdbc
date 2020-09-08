@@ -12,15 +12,22 @@ public class Main {
             connection = DriverManager.getConnection(URL, "root", "example");
             System.out.println("Połączenie udane");
 
-            String query = "select * from test";
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(query);
-            while(rs.next()) {
-                System.out.println(rs.getInt(1) + " | " + rs.getString(2));
+            CallableStatement callableStatement = connection.prepareCall("{call getPersons ()}");
+            ResultSet resultSet = callableStatement.executeQuery();
+            while(resultSet.next()) {
+                System.out.println(resultSet.getInt(1) + " : " + resultSet.getString(2)
+                        + " : " + resultSet.getString(3) + " : " + resultSet.getDate(4));
             }
-            statement.close();
+
+//            String query = "select * from test";
+//            Statement statement = connection.createStatement();
+//            ResultSet rs = statement.executeQuery(query);
+//            while(rs.next()) {
+//                System.out.println(rs.getInt(1) + " | " + rs.getString(2));
+//            }
+//            statement.close();
         } catch (SQLException e) {
-            System.out.println("Nie udało się połączyć z bazą danych");
+            System.out.println(e.getMessage());
         }
 
         if(connection != null) {

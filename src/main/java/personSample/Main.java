@@ -11,12 +11,20 @@ public class Main {
 
     public static void main(String[] args) {
         PersonDao dao = new PersonDaoImpl();
-        Person newPerson = new Person(4, "Krzysztof", "Jarzyna", LocalDate.of(1996, 11, 03));
+        long start = System.currentTimeMillis();
+        List<Person> person = dao.getByFirstName("aw");
+        long stop = System.currentTimeMillis();
+        person.forEach(System.out::println);
+        System.out.println("czas = " + (stop - start));
+//        Person person = dao.getById(2);
+//        System.out.println(person);
 
-        dao.addPerson(newPerson);
-
-        List<Person> people = dao.getAll();
-        people.forEach(System.out::println);
+//        Person newPerson = new Person(4, "Krzysztof", "Jarzyna", LocalDate.of(1996, 11, 03));
+//
+//        dao.addPerson(newPerson);
+//
+//        List<Person> people = dao.getAll();
+//        people.forEach(System.out::println);
 //        new PersonDaoImpl().createTable();
     }
 }
